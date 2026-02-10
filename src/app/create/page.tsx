@@ -22,8 +22,6 @@ export default function CreatePage() {
   const [recipientName, setRecipientName] = useState("");
   const [memories, setMemories] = useState<Memory[]>([
     { title: "", description: "" },
-    { title: "", description: "" },
-    { title: "", description: "" },
   ]);
   const [hints, setHints] = useState("");
   const [styleConfig, setStyleConfig] = useState<StyleConfig>(
@@ -42,6 +40,12 @@ export default function CreatePage() {
   const handleTemplateSelect = (id: TemplateId) => {
     setTemplateId(id);
     setStyleConfig(getTemplate(id).defaultStyle);
+  };
+
+  const handleAddMemory = () => {
+    if (memories.length < 3) {
+      setMemories((prev) => [...prev, { title: "", description: "" }]);
+    }
   };
 
   const handleMemoryChange = (
@@ -118,6 +122,8 @@ export default function CreatePage() {
         senderName,
         recipientName,
         tagline,
+        memories: getFilledMemories(),
+        hints: hints || undefined,
       }),
     });
     if (!res.ok) throw new Error("Failed to generate image");
@@ -259,6 +265,7 @@ export default function CreatePage() {
                   onSenderNameChange={setSenderName}
                   onRecipientNameChange={setRecipientName}
                   onMemoryChange={handleMemoryChange}
+                  onAddMemory={handleAddMemory}
                   onHintsChange={setHints}
                   errors={errors}
                 />

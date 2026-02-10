@@ -22,12 +22,24 @@ export async function POST(request: NextRequest) {
         "clean minimalist style, subtle line art, elegant typography-inspired, lots of white space, understated beauty",
     };
 
-    const prompt = `Create a beautiful Valentine's Day invitation artwork. Style: ${styleDescriptions[parsed.templateId] || styleDescriptions.classic}.
-The image should feature romantic elements appropriate for an invitation from ${parsed.senderName} to ${parsed.recipientName}.
+    const personalElements = parsed.memories
+      .map((m) => m.description)
+      .join("; ");
+
+    const sceneContext = [
+      personalElements,
+      parsed.hints ? parsed.hints : null,
+    ].filter(Boolean).join(". ");
+
+    const prompt = `Create a romantic artwork inspired by this couple's unique story. Their moments together: ${sceneContext}.
+
+Depict a scene, setting, or symbolic imagery drawn from their specific memories above. Make it feel like THEIR story, not a generic Valentine's card.
+
+Style: ${styleDescriptions[parsed.templateId] || styleDescriptions.classic}.
 ${parsed.tagline ? `Mood: "${parsed.tagline}". ` : ""}
-Do not include any text or letters in the image. Focus on beautiful visual art only.
-Color palette: use colors similar to ${template.colors.primary} and ${template.colors.secondary}.
-Aspect ratio: landscape, suitable as a header image for a digital invitation card.`;
+Do not include any text, words, or letters in the image. Pure visual art only.
+Color palette: ${template.colors.primary} and ${template.colors.secondary} tones.
+Landscape format, suitable as a digital invitation header.`;
 
     const response = await openai.images.generate({
       model: "gpt-image-1.5",

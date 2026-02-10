@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import type { Memory } from "@/types";
 
 interface PersonalDetailsProps {
@@ -10,6 +11,7 @@ interface PersonalDetailsProps {
   onSenderNameChange: (name: string) => void;
   onRecipientNameChange: (name: string) => void;
   onMemoryChange: (index: number, field: keyof Memory, value: string) => void;
+  onAddMemory: () => void;
   onHintsChange: (hints: string) => void;
   errors: Record<string, string>;
 }
@@ -22,9 +24,12 @@ export default function PersonalDetails({
   onSenderNameChange,
   onRecipientNameChange,
   onMemoryChange,
+  onAddMemory,
   onHintsChange,
   errors,
 }: PersonalDetailsProps) {
+  const [showHints, setShowHints] = useState(hints.length > 0);
+
   return (
     <div>
       <h2 className="font-[family-name:var(--font-poppins)] text-2xl font-bold text-rose-900 mb-2">
@@ -74,7 +79,7 @@ export default function PersonalDetails({
         {/* Memories */}
         <div>
           <label className="block text-sm font-medium text-rose-800 mb-3">
-            Shared Memories (up to 3)
+            Shared Memories
           </label>
           <div className="space-y-4">
             {memories.map((memory, i) => (
@@ -86,7 +91,7 @@ export default function PersonalDetails({
                   type="text"
                   value={memory.title}
                   onChange={(e) => onMemoryChange(i, "title", e.target.value)}
-                  placeholder={`Memory ${i + 1} title (e.g. "Our first date")`}
+                  placeholder='Memory title (e.g. "Our first date")'
                   className="w-full px-3 py-2 rounded-lg border border-rose-200 bg-white/80 text-rose-900 text-sm placeholder:text-rose-300 focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-transparent"
                 />
                 <textarea
@@ -104,21 +109,43 @@ export default function PersonalDetails({
               </div>
             ))}
           </div>
+          {memories.length < 3 && (
+            <div className="flex justify-end mt-3">
+              <button
+                type="button"
+                onClick={onAddMemory}
+                className="text-sm font-medium text-rose-500 hover:text-rose-600 transition-colors cursor-pointer"
+              >
+                + Add Memory
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Hints */}
         <div>
-          <label className="block text-sm font-medium text-rose-800 mb-1">
-            Personal Hints{" "}
-            <span className="text-rose-400 font-normal">(optional)</span>
-          </label>
-          <textarea
-            value={hints}
-            onChange={(e) => onHintsChange(e.target.value)}
-            placeholder="Inside jokes, how you met, favorite songs, anything special..."
-            rows={3}
-            className="w-full px-4 py-3 rounded-xl border border-rose-200 bg-white/80 text-rose-900 placeholder:text-rose-300 focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-transparent resize-none"
-          />
+          {showHints ? (
+            <>
+              <label className="block text-sm font-medium text-rose-800 mb-1">
+                Personal Hints
+              </label>
+              <textarea
+                value={hints}
+                onChange={(e) => onHintsChange(e.target.value)}
+                placeholder="Inside jokes, how you met, favorite songs, anything special..."
+                rows={3}
+                className="w-full px-4 py-3 rounded-xl border border-rose-200 bg-white/80 text-rose-900 placeholder:text-rose-300 focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-transparent resize-none"
+              />
+            </>
+          ) : (
+            <button
+              type="button"
+              onClick={() => setShowHints(true)}
+              className="text-sm font-medium text-rose-500 hover:text-rose-600 transition-colors cursor-pointer"
+            >
+              + Add Personal Hints
+            </button>
+          )}
         </div>
       </div>
     </div>

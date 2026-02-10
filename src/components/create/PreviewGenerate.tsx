@@ -1,8 +1,55 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { getTemplate } from "@/lib/templates";
 import type { TemplateId, StyleConfig, GeneratedMessage } from "@/types";
+
+const bemyMessages = [
+  "Bemy is writing your love letter...",
+  "Bemy is painting something beautiful...",
+  "Adding a sprinkle of magic...",
+  "Weaving your memories into poetry...",
+  "Almost ready to steal their heart...",
+];
+
+function LoadingScreen() {
+  const [messageIndex, setMessageIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setMessageIndex((prev) => (prev + 1) % bemyMessages.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="text-center py-16">
+      <motion.div
+        animate={{ rotate: 360 }}
+        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+        className="inline-block text-4xl mb-4"
+      >
+        ✨
+      </motion.div>
+      <p className="text-rose-700 font-medium">Creating your Valentine...</p>
+      <div className="h-6 mt-1">
+        <AnimatePresence mode="wait">
+          <motion.p
+            key={messageIndex}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.3 }}
+            className="text-rose-400 text-sm"
+          >
+            {bemyMessages[messageIndex]}
+          </motion.p>
+        </AnimatePresence>
+      </div>
+    </div>
+  );
+}
 
 interface PreviewGenerateProps {
   templateId: TemplateId;
@@ -35,10 +82,10 @@ export default function PreviewGenerate({
     return (
       <div className="text-center py-12">
         <h2 className="font-[family-name:var(--font-poppins)] text-2xl font-bold text-rose-900 mb-2">
-          Preview Your Invitation
+          Preview Your Valentine
         </h2>
         <p className="text-rose-700/60 mb-8">
-          AI will craft a personalized message and generate a beautiful image.
+          Bemy will craft a personalized message and generate a beautiful image.
         </p>
         <motion.button
           whileHover={{ scale: 1.05 }}
@@ -46,36 +93,20 @@ export default function PreviewGenerate({
           onClick={onGenerate}
           className="bg-rose-500 hover:bg-rose-600 text-white font-semibold px-8 py-3 rounded-full shadow-lg shadow-rose-500/30 transition-colors cursor-pointer"
         >
-          Generate Invitation
+          Generate Valentine
         </motion.button>
       </div>
     );
   }
 
   if (isGenerating) {
-    return (
-      <div className="text-center py-16">
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-          className="inline-block text-4xl mb-4"
-        >
-          ✨
-        </motion.div>
-        <p className="text-rose-700 font-medium">
-          Creating your invitation...
-        </p>
-        <p className="text-rose-400 text-sm mt-1">
-          AI is writing your message and generating art
-        </p>
-      </div>
-    );
+    return <LoadingScreen />;
   }
 
   return (
     <div>
       <h2 className="font-[family-name:var(--font-poppins)] text-2xl font-bold text-rose-900 mb-6">
-        Your Invitation
+        Your Valentine
       </h2>
 
       {/* Preview Card */}
@@ -89,7 +120,7 @@ export default function PreviewGenerate({
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={generatedImageUrl}
-              alt="Generated invitation art"
+              alt="Generated Valentine art"
               className="w-full h-64 object-cover"
             />
             <button

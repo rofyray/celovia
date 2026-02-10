@@ -11,11 +11,11 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: "Celovia — Be My Valentine",
   description:
-    "Create a beautiful, AI-personalized Valentine's invitation and share it with someone special.",
+    "Create a beautiful, AI-personalized Valentine and share it with someone special.",
   openGraph: {
     title: "Celovia — Be My Valentine",
     description:
-      "Create a beautiful, AI-personalized Valentine's invitation and share it with someone special.",
+      "Create a beautiful, AI-personalized Valentine and share it with someone special.",
     type: "website",
   },
 };
@@ -37,6 +37,7 @@ export default function RootLayout({
         />
       </head>
       <body
+        suppressHydrationWarning
         className={`${poppins.variable} font-sans antialiased`}
       >
         {children}

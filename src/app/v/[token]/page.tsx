@@ -23,7 +23,7 @@ export default function RecipientPage() {
       try {
         const res = await fetch(`/api/invitations/${token}`);
         if (!res.ok) {
-          setError("Invitation not found");
+          setError("Valentine not found");
           setViewState("error");
           return;
         }
@@ -69,7 +69,7 @@ export default function RecipientPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-rose-400 animate-pulse-soft text-lg">
-          Loading your invitation...
+          Loading your Valentine...
         </div>
       </div>
     );
@@ -81,10 +81,10 @@ export default function RecipientPage() {
         <div className="text-center">
           <div className="text-4xl mb-4">😔</div>
           <h2 className="text-xl font-semibold text-rose-900 mb-2">
-            {error || "Invitation not found"}
+            {error || "Valentine not found"}
           </h2>
           <p className="text-rose-700/60">
-            This invitation link may be invalid or expired.
+            This link may be invalid or expired.
           </p>
         </div>
       </div>

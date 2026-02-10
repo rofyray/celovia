@@ -14,17 +14,17 @@ const features = [
     icon: "✨",
     title: "Add Your Memories",
     description:
-      "Share your favorite moments together — AI weaves them into a poetic message.",
+      "Share your favorite moments together. Bemy turns them into a heartfelt message.",
   },
   {
     icon: "🎨",
-    title: "AI-Generated Art",
+    title: "Art by Bemy",
     description:
-      "A unique, beautiful image created just for your invitation.",
+      "A unique, beautiful image created just for your Valentine.",
   },
   {
     icon: "💝",
-    title: "Share & RSVP",
+    title: "Share & Surprise",
     description:
       "Send a magical link. They open an animated envelope and say yes!",
   },
@@ -43,7 +43,7 @@ export default function LandingPage() {
             href="/create"
             className="text-sm font-medium text-rose-600 hover:text-rose-700 transition-colors"
           >
-            Create Invitation
+            Get Started
           </Link>
         </div>
       </header>
@@ -69,7 +69,7 @@ export default function LandingPage() {
             <span className="text-rose-500">your Valentine</span>
           </h1>
           <p className="text-lg md:text-xl text-rose-700/70 mb-10 max-w-xl mx-auto">
-            Create a beautiful, AI-personalized invitation filled with your
+            Create a beautiful, Bemy-crafted Valentine filled with your
             shared memories. Send it as a magical animated link.
           </p>
           <Link href="/create">
@@ -78,7 +78,7 @@ export default function LandingPage() {
               whileTap={{ scale: 0.98 }}
               className="bg-rose-500 hover:bg-rose-600 text-white text-lg font-semibold px-10 py-4 rounded-full shadow-lg shadow-rose-500/30 transition-colors cursor-pointer"
             >
-              Create Your Invitation
+              Create Your Valentine
             </motion.button>
           </Link>
         </motion.div>

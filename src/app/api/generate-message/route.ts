@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
     const template = getTemplate(parsed.templateId);
 
     const memoriesText = parsed.memories
-      .map((m, i) => `${i + 1}. "${m.title}": ${m.description}`)
+      .map((m) => `- ${m.description} (context: ${m.title})`)
       .join("\n");
 
     const response = await openai.chat.completions.create({
@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
               message: {
                 type: "string",
                 description:
-                  "The poetic invitation text, 2-4 paragraphs. Warm, personal, romantic.",
+                  "The poetic invitation text, 2-3 short paragraphs, max 120 words. Warm, personal, romantic.",
               },
               tagline: {
                 type: "string",
@@ -53,9 +53,10 @@ export async function POST(request: NextRequest) {
 
 Rules:
 - Write in second person, addressing the recipient by name
-- Weave in the shared memories naturally — don't just list them
-- The message should feel deeply personal, not generic
+- Draw on the emotions, places, and moments from their memories, but NEVER copy a memory title or description word-for-word into the message. Paraphrase and reimagine them poetically.
+- The message must feel like it was written by someone who truly knows this couple, not assembled from a template
 - Never be cheesy or cliché — aim for genuine, modern romance
+- Keep the total message under 120 words — concise and heartfelt
 - Keep the tagline short and memorable
 - The story arc should summarize their journey together
 - Never use em-dashes (—) — use commas, periods, or semicolons instead`,
@@ -64,12 +65,12 @@ Rules:
           role: "user",
           content: `Create a Valentine's invitation from ${parsed.senderName} to ${parsed.recipientName}.
 
-Their shared memories:
+Here is some background about their relationship — use these as creative inspiration, not as text to copy:
 ${memoriesText}
 
 ${parsed.hints ? `Personal hints and context: ${parsed.hints}` : ""}
 
-Write a beautiful, personalized invitation message.`,
+Write a deeply personal invitation that captures the feeling of these moments without repeating them verbatim.`,
         },
       ],
     });

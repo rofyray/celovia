@@ -23,7 +23,7 @@ export default function ShareStep({
           Ready to Share?
         </h2>
         <p className="text-rose-700/60 mb-8">
-          Save your invitation and get a shareable link.
+          Save your Valentine and get a shareable link.
         </p>
         <motion.button
           whileHover={{ scale: 1.05 }}
@@ -47,7 +47,7 @@ export default function ShareStep({
         >
           💌
         </motion.div>
-        <p className="text-rose-700 font-medium">Saving your invitation...</p>
+        <p className="text-rose-700 font-medium">Saving your Valentine...</p>
       </div>
     );
   }
@@ -62,7 +62,7 @@ export default function ShareStep({
     if (navigator.share) {
       try {
         await navigator.share({
-          title: "You've received a Valentine's invitation!",
+          title: "You've received a Valentine!",
           url: shareUrl,
         });
       } catch {
@@ -82,7 +82,7 @@ export default function ShareStep({
         🎉
       </motion.div>
       <h2 className="font-[family-name:var(--font-poppins)] text-2xl font-bold text-rose-900 mb-2">
-        Your Invitation is Ready!
+        Your Valentine is Ready!
       </h2>
       <p className="text-rose-700/60 mb-8">
         Share this link with your special someone.

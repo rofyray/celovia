@@ -31,6 +31,8 @@ export const generateImageSchema = z.object({
   senderName: z.string().min(1),
   recipientName: z.string().min(1),
   tagline: z.string().optional(),
+  memories: z.array(memorySchema).min(1).max(3),
+  hints: z.string().optional(),
 });
 
 export const rsvpSchema = z.object({

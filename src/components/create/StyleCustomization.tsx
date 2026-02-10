@@ -99,7 +99,7 @@ export default function StyleCustomization({
                 {template.name} style
               </p>
               <p className="text-sm opacity-70 mt-1" style={{ fontFamily: styleConfig.font }}>
-                Your invitation will look like this.
+                Your Valentine will look like this.
               </p>
             </div>
           )}
@@ -125,7 +125,7 @@ export default function StyleCustomization({
                   {template.name} style
                 </p>
                 <p className="text-sm opacity-70 mt-1" style={{ fontFamily: styleConfig.font }}>
-                  Your invitation will look like this.
+                  Your Valentine will look like this.
                 </p>
               </div>
             </div>
@@ -143,7 +143,7 @@ export default function StyleCustomization({
                 {template.name} style
               </p>
               <p className="text-sm opacity-70 mt-1" style={{ fontFamily: styleConfig.font }}>
-                Your invitation will look like this.
+                Your Valentine will look like this.
               </p>
             </div>
           )}

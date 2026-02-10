@@ -54,12 +54,12 @@ export default function InvitationCard({
       </motion.button>
 
       {/* 3D card scene */}
-      <div style={{ perspective: "1200px" }} className="w-full max-w-sm">
+      <div style={{ perspective: "1200px" }} className="w-full max-w-2xl">
         <motion.div
           className="relative w-full"
           style={{
             transformStyle: "preserve-3d",
-            aspectRatio: "3/4",
+            aspectRatio: "4/3",
           }}
           animate={{ rotateY: isFlipped ? 180 : 0 }}
           transition={{ duration: 0.6, ease: "easeInOut" }}
@@ -107,7 +107,7 @@ export default function InvitationCard({
               fontFamily: font,
             }}
           >
-            <div className="absolute inset-0 flex flex-col p-6 sm:p-8 overflow-y-auto">
+            <div className="absolute inset-0 flex flex-col p-5 sm:p-6 overflow-y-auto">
               {/* Tagline */}
               <p
                 className="text-xs uppercase tracking-[0.2em] mb-4"
@@ -117,18 +117,18 @@ export default function InvitationCard({
               </p>
 
               {/* Greeting */}
-              <p className="text-xl font-bold mb-3">
+              <p className="text-lg font-bold mb-2">
                 Dear {invitation.recipient_name},
               </p>
 
               {/* Message body */}
-              <div className="text-base leading-relaxed whitespace-pre-line opacity-85 flex-1 mb-6">
+              <div className="text-sm leading-relaxed whitespace-pre-line opacity-85 flex-1 mb-4">
                 {invitation.generated_message}
               </div>
 
               {/* Signature */}
               <div
-                className="border-t pt-4 mb-6"
+                className="border-t pt-3 mb-4"
                 style={{ borderColor: `${template.colors.text}15` }}
               >
                 <p className="text-sm font-semibold">With all my love,</p>
@@ -147,7 +147,7 @@ export default function InvitationCard({
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={onRsvp}
-                    className="inline-flex items-center gap-2 text-white font-semibold px-8 py-4 rounded-full shadow-lg cursor-pointer"
+                    className="inline-flex items-center gap-2 text-white font-semibold px-6 py-3 rounded-full shadow-lg cursor-pointer"
                     style={{
                       background: template.colors.primary,
                       boxShadow: `0 10px 30px ${template.colors.primary}40`,
