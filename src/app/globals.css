@@ -31,8 +31,8 @@
   --color-amber-300: #fcd34d;
   --color-amber-400: #fbbf24;
 
-  --font-sans: "Inter", system-ui, sans-serif;
-  --font-serif: "Playfair Display", Georgia, serif;
+  --font-sans: "Poppins", system-ui, sans-serif;
+  --font-serif: "Poppins", system-ui, sans-serif;
 }
 
 body {

@@ -14,7 +14,7 @@ export const templates: Template[] = [
       background: "#fdf2f8",
       text: "#4a2040",
     },
-    fonts: ["Playfair Display", "Lora", "Cormorant Garamond"],
+    fonts: ["Playfair Display", "Lora", "Dancing Script"],
     defaultStyle: {
       colorTheme: "classic",
       font: "Playfair Display",

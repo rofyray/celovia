@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { createServerClient } from "@/lib/supabase";
+import { serverClient as supabase } from "@/lib/supabase";
 
 export type AnalyticsEventType =
   | "message_generated"
@@ -30,8 +30,6 @@ export function logEvent({
       null;
     enrichedProperties.userAgent = request.headers.get("user-agent") || null;
   }
-
-  const supabase = createServerClient();
 
   Promise.resolve(
     supabase.from("analytics_events").insert({

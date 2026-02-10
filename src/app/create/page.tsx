@@ -3,13 +3,15 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import TemplateSelect from "@/components/create/TemplateSelect";
-import PersonalDetails from "@/components/create/PersonalDetails";
-import StyleCustomization from "@/components/create/StyleCustomization";
-import PreviewGenerate from "@/components/create/PreviewGenerate";
-import ShareStep from "@/components/create/ShareStep";
 import { getTemplate } from "@/lib/templates";
 import type { TemplateId, Memory, StyleConfig, GeneratedMessage } from "@/types";
+
+const PersonalDetails = dynamic(() => import("@/components/create/PersonalDetails"));
+const StyleCustomization = dynamic(() => import("@/components/create/StyleCustomization"));
+const PreviewGenerate = dynamic(() => import("@/components/create/PreviewGenerate"));
+const ShareStep = dynamic(() => import("@/components/create/ShareStep"));
 
 const STEPS = ["Template", "Details", "Style", "Preview", "Share"];
 
@@ -206,7 +208,7 @@ export default function CreatePage() {
         <div className="max-w-3xl mx-auto flex items-center justify-between">
           <Link
             href="/"
-            className="font-[family-name:var(--font-playfair)] text-xl font-bold text-rose-700"
+            className="font-[family-name:var(--font-poppins)] text-xl font-bold text-rose-700"
           >
             Celovia
           </Link>

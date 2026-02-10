@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServerClient } from "@/lib/supabase";
+import { serverClient as supabase } from "@/lib/supabase";
 import { rsvpSchema } from "@/lib/schemas";
 import { logEvent } from "@/lib/analytics";
 
@@ -11,8 +11,6 @@ export async function POST(
     const { token } = await params;
     const body = await request.json();
     const parsed = rsvpSchema.parse(body);
-
-    const supabase = createServerClient();
 
     // Verify invitation exists
     const { data: invitation, error: fetchError } = await supabase

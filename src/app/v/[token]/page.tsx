@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import { AnimatePresence, motion } from "framer-motion";
 import EnvelopeAnimation from "@/components/recipient/EnvelopeAnimation";
 import InvitationCard from "@/components/recipient/InvitationCard";
 import Celebration from "@/components/recipient/Celebration";
@@ -90,17 +91,46 @@ export default function RecipientPage() {
     );
   }
 
-  if (viewState === "envelope") {
-    return <EnvelopeAnimation onComplete={handleEnvelopeOpen} />;
-  }
+  return (
+    <AnimatePresence mode="wait">
+      {viewState === "envelope" && invitation && (
+        <motion.div
+          key="envelope"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.4 }}
+        >
+          <EnvelopeAnimation
+            invitation={invitation}
+            onComplete={handleEnvelopeOpen}
+          />
+        </motion.div>
+      )}
 
-  if (viewState === "celebration" && invitation) {
-    return <Celebration senderName={invitation.sender_name} />;
-  }
+      {viewState === "invitation" && invitation && (
+        <motion.div
+          key="invitation"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.4 }}
+        >
+          <InvitationCard invitation={invitation} onRsvp={handleRsvp} />
+        </motion.div>
+      )}
 
-  if (viewState === "invitation" && invitation) {
-    return <InvitationCard invitation={invitation} onRsvp={handleRsvp} />;
-  }
-
-  return null;
+      {viewState === "celebration" && invitation && (
+        <motion.div
+          key="celebration"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.4 }}
+        >
+          <Celebration senderName={invitation.sender_name} />
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
 }

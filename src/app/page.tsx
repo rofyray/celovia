@@ -36,7 +36,7 @@ export default function LandingPage() {
       {/* Header */}
       <header className="w-full px-6 py-4">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <span className="font-[family-name:var(--font-playfair)] text-2xl font-bold text-rose-700">
+          <span className="font-[family-name:var(--font-poppins)] text-2xl font-bold text-rose-700">
             Celovia
           </span>
           <Link
@@ -63,7 +63,7 @@ export default function LandingPage() {
           >
             💌
           </motion.div>
-          <h1 className="font-[family-name:var(--font-playfair)] text-4xl md:text-6xl font-bold text-rose-900 mb-4 leading-tight">
+          <h1 className="font-[family-name:var(--font-poppins)] text-4xl md:text-6xl font-bold text-rose-900 mb-4 leading-tight">
             Ask them to be
             <br />
             <span className="text-rose-500">your Valentine</span>
@@ -110,7 +110,7 @@ export default function LandingPage() {
 
       {/* Footer */}
       <footer className="py-6 text-center text-sm text-rose-400">
-        Made with love — Celovia
+        Made with ♥️ — Celovia
       </footer>
     </div>
   );

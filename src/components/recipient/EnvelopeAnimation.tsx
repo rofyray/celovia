@@ -1,83 +1,227 @@
 "use client";
 
+import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
+import { getTemplate } from "@/lib/templates";
+import type { Invitation } from "@/types";
+
+type Phase = "front" | "flipping" | "opening" | "emerging" | "done";
 
 interface EnvelopeAnimationProps {
+  invitation: Invitation;
   onComplete: () => void;
 }
 
 export default function EnvelopeAnimation({
+  invitation,
   onComplete,
 }: EnvelopeAnimationProps) {
+  const [phase, setPhase] = useState<Phase>("front");
+  const template = getTemplate(invitation.template_id);
+
+  const handleTap = useCallback(() => {
+    if (phase === "front") {
+      setPhase("flipping");
+    }
+  }, [phase]);
+
+  useEffect(() => {
+    if (phase === "flipping") {
+      const t = setTimeout(() => setPhase("opening"), 1100);
+      return () => clearTimeout(t);
+    }
+    if (phase === "opening") {
+      const t = setTimeout(() => setPhase("emerging"), 800);
+      return () => clearTimeout(t);
+    }
+    if (phase === "emerging") {
+      const t = setTimeout(() => {
+        setPhase("done");
+        onComplete();
+      }, 1200);
+      return () => clearTimeout(t);
+    }
+  }, [phase, onComplete]);
+
+  const isFlipped = phase !== "front";
+  const isFlapOpen = phase === "opening" || phase === "emerging" || phase === "done";
+  const isCardEmerging = phase === "emerging" || phase === "done";
+
   return (
-    <div className="min-h-screen flex items-center justify-center px-6">
-      <motion.div
-        className="relative cursor-pointer"
-        onClick={onComplete}
-        whileHover={{ scale: 1.05 }}
-      >
-        {/* Envelope body */}
+    <div className="min-h-screen flex flex-col items-center justify-center px-6">
+      {/* 3D scene */}
+      <div style={{ perspective: "1200px" }}>
         <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="relative w-80 h-52 bg-gradient-to-b from-rose-100 to-rose-200 rounded-2xl shadow-2xl shadow-rose-500/20 overflow-hidden"
+          className="relative w-72 sm:w-80 h-48 sm:h-56 cursor-pointer"
+          style={{ transformStyle: "preserve-3d" }}
+          animate={{ rotateY: isFlipped ? 180 : 0 }}
+          transition={{ duration: 0.8, ease: "easeInOut" }}
+          onClick={handleTap}
         >
-          {/* Envelope flap */}
-          <motion.div
-            initial={{ rotateX: 0 }}
-            animate={{ rotateX: 180 }}
-            transition={{ duration: 0.8, delay: 1.2, ease: "easeInOut" }}
-            style={{ transformOrigin: "top center" }}
-            className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-rose-300 to-rose-200"
-            // Triangle shape via clip-path
-            // Clip path creates the envelope flap triangle
+          {/* ===== FRONT FACE ===== */}
+          <div
+            className="absolute inset-0 rounded-2xl shadow-2xl overflow-hidden"
+            style={{
+              backfaceVisibility: "hidden",
+              background: "#ffffff",
+            }}
           >
+            {/* Subtle paper texture lines */}
+            <div className="absolute inset-0 opacity-[0.04]">
+              <div className="absolute inset-x-0 top-1/3 h-px bg-gray-400" />
+              <div className="absolute inset-x-0 top-1/2 h-px bg-gray-400" />
+              <div className="absolute inset-x-0 top-2/3 h-px bg-gray-400" />
+            </div>
+
+            {/* Recipient name - centered */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <p
+                className="text-2xl sm:text-3xl"
+                style={{ fontFamily: "Dancing Script, cursive" }}
+              >
+                {invitation.recipient_name}
+              </p>
+            </div>
+
+            {/* Heart stamp - upper right */}
             <div
-              className="w-full h-full bg-gradient-to-b from-rose-300 to-rose-200"
-              style={{
-                clipPath: "polygon(0 0, 100% 0, 50% 100%)",
-              }}
-            />
-          </motion.div>
-
-          {/* Heart seal */}
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 0.4, type: "spring", stiffness: 200 }}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
-          >
-            <motion.span
-              animate={{ scale: [1, 1.2, 1] }}
-              transition={{
-                duration: 1.5,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-              className="text-5xl block"
+              className="absolute top-3 right-3 w-12 h-12 rounded-lg border-2 flex items-center justify-center"
+              style={{ borderColor: template.colors.primary }}
             >
-              💌
-            </motion.span>
-          </motion.div>
+              <span className="text-2xl">💌</span>
+            </div>
 
-          {/* Decorative lines */}
-          <div className="absolute bottom-6 left-6 right-6 space-y-2">
-            <div className="h-1 bg-rose-300/30 rounded-full" />
-            <div className="h-1 bg-rose-300/20 rounded-full w-3/4" />
+            {/* Decorative bottom edge */}
+            <div
+              className="absolute bottom-0 inset-x-0 h-1"
+              style={{ background: template.colors.secondary }}
+            />
+          </div>
+
+          {/* ===== BACK FACE ===== */}
+          <div
+            className="absolute inset-0 rounded-2xl shadow-2xl overflow-hidden"
+            style={{
+              backfaceVisibility: "hidden",
+              transform: "rotateY(180deg)",
+              background: "#ffffff",
+            }}
+          >
+            {/* Diamond fold pattern */}
+            <div className="absolute inset-0" style={{ zIndex: 10 }}>
+              {/* Left triangle */}
+              <div
+                className="absolute inset-0 opacity-10"
+                style={{
+                  clipPath: "polygon(0 0, 50% 50%, 0 100%)",
+                  background: template.colors.primary,
+                }}
+              />
+              {/* Right triangle */}
+              <div
+                className="absolute inset-0 opacity-10"
+                style={{
+                  clipPath: "polygon(100% 0, 50% 50%, 100% 100%)",
+                  background: template.colors.primary,
+                }}
+              />
+              {/* Bottom triangle */}
+              <div
+                className="absolute inset-0 opacity-15"
+                style={{
+                  clipPath: "polygon(0 100%, 50% 50%, 100% 100%)",
+                  background: template.colors.primary,
+                }}
+              />
+            </div>
+
+            {/* Sender name - centered */}
+            <div className="absolute inset-0 flex items-center justify-center" style={{ zIndex: 15 }}>
+              <p
+                className="text-lg sm:text-xl text-gray-600"
+                style={{ fontFamily: "Dancing Script, cursive" }}
+              >
+                From {invitation.sender_name}
+              </p>
+            </div>
+
+            {/* ===== TOP FLAP ===== */}
+            <motion.div
+              className="absolute inset-x-0 top-0 origin-top"
+              style={{
+                zIndex: 30,
+                transformStyle: "preserve-3d",
+                height: "55%",
+              }}
+              animate={{ rotateX: isFlapOpen ? -160 : 0 }}
+              transition={{ duration: 0.6, ease: "easeInOut" }}
+            >
+              {/* Flap outer (paper-colored) */}
+              <div
+                className="absolute inset-0"
+                style={{
+                  backfaceVisibility: "hidden",
+                  clipPath: "polygon(0 0, 100% 0, 50% 100%)",
+                  background: "#f5f5f4",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                }}
+              />
+              {/* Flap inner (colored liner) */}
+              <div
+                className="absolute inset-0"
+                style={{
+                  backfaceVisibility: "hidden",
+                  transform: "rotateX(180deg)",
+                  clipPath: "polygon(0 0, 100% 0, 50% 100%)",
+                  background: template.colors.secondary,
+                }}
+              />
+            </motion.div>
+
+            {/* ===== CARD SLOT ===== */}
+            <motion.div
+              className="absolute left-3 right-3 bottom-3 rounded-lg overflow-hidden bg-white shadow-md"
+              style={{
+                zIndex: 20,
+                top: "30%",
+              }}
+              animate={{
+                y: isCardEmerging ? "-120%" : "0%",
+                opacity: isCardEmerging ? 0.8 : 1,
+              }}
+              transition={{ duration: 1.0, ease: "easeOut" }}
+            >
+              {invitation.generated_image_url ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={invitation.generated_image_url}
+                  alt="Card preview"
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div
+                  className="w-full h-full flex items-center justify-center"
+                  style={{ background: template.colors.background }}
+                >
+                  <span className="text-3xl">💝</span>
+                </div>
+              )}
+            </motion.div>
           </div>
         </motion.div>
+      </div>
 
-        {/* Tap instruction */}
+      {/* Tap instruction - only shown on front phase */}
+      {phase === "front" && (
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 2 }}
-          className="text-center text-rose-400 text-sm mt-6 animate-pulse-soft"
+          transition={{ delay: 0.8 }}
+          className="text-rose-400 text-sm mt-8 animate-pulse-soft"
         >
           Tap to open your invitation
         </motion.p>
-      </motion.div>
+      )}
     </div>
   );
 }

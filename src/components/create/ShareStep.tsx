@@ -19,7 +19,7 @@ export default function ShareStep({
   if (!shareUrl && !isSaving) {
     return (
       <div className="text-center py-12">
-        <h2 className="font-[family-name:var(--font-playfair)] text-2xl font-bold text-rose-900 mb-2">
+        <h2 className="font-[family-name:var(--font-poppins)] text-2xl font-bold text-rose-900 mb-2">
           Ready to Share?
         </h2>
         <p className="text-rose-700/60 mb-8">
@@ -81,7 +81,7 @@ export default function ShareStep({
       >
         🎉
       </motion.div>
-      <h2 className="font-[family-name:var(--font-playfair)] text-2xl font-bold text-rose-900 mb-2">
+      <h2 className="font-[family-name:var(--font-poppins)] text-2xl font-bold text-rose-900 mb-2">
         Your Invitation is Ready!
       </h2>
       <p className="text-rose-700/60 mb-8">

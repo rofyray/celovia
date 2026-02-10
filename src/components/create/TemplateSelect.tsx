@@ -15,7 +15,7 @@ export default function TemplateSelect({
 }: TemplateSelectProps) {
   return (
     <div>
-      <h2 className="font-[family-name:var(--font-playfair)] text-2xl font-bold text-rose-900 mb-2">
+      <h2 className="font-[family-name:var(--font-poppins)] text-2xl font-bold text-rose-900 mb-2">
         Choose Your Style
       </h2>
       <p className="text-rose-700/60 mb-6">

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getOpenAIClient } from "@/lib/openai";
+import { openai } from "@/lib/openai";
 import { generateMessageSchema } from "@/lib/schemas";
 import { getTemplate } from "@/lib/templates";
 import { logEvent } from "@/lib/analytics";
@@ -15,7 +15,6 @@ export async function POST(request: NextRequest) {
       .map((m, i) => `${i + 1}. "${m.title}": ${m.description}`)
       .join("\n");
 
-    const openai = getOpenAIClient();
     const response = await openai.chat.completions.create({
       model: "gpt-5-nano",
       response_format: {
@@ -58,7 +57,8 @@ Rules:
 - The message should feel deeply personal, not generic
 - Never be cheesy or cliché — aim for genuine, modern romance
 - Keep the tagline short and memorable
-- The story arc should summarize their journey together`,
+- The story arc should summarize their journey together
+- Never use em-dashes (—) — use commas, periods, or semicolons instead`,
         },
         {
           role: "user",

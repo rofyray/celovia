@@ -59,7 +59,7 @@ export default function Celebration({ senderName }: { senderName: string }) {
         >
           💕
         </motion.div>
-        <h1 className="font-[family-name:var(--font-playfair)] text-3xl md:text-5xl font-bold text-rose-900 mb-4">
+        <h1 className="font-[family-name:var(--font-poppins)] text-3xl md:text-5xl font-bold text-rose-900 mb-4">
           It&apos;s a Yes!
         </h1>
         <p className="text-lg text-rose-700/70 max-w-md mx-auto">

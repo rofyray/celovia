@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getGenAIClient } from "@/lib/genai";
+import { openai } from "@/lib/openai";
+import { serverClient as supabase } from "@/lib/supabase";
 import { generateImageSchema } from "@/lib/schemas";
 import { getTemplate } from "@/lib/templates";
 import { logEvent } from "@/lib/analytics";
@@ -28,35 +29,50 @@ Do not include any text or letters in the image. Focus on beautiful visual art o
 Color palette: use colors similar to ${template.colors.primary} and ${template.colors.secondary}.
 Aspect ratio: landscape, suitable as a header image for a digital invitation card.`;
 
-    const genai = getGenAIClient();
-    const response = await genai.models.generateContent({
-      model: "gemini-2.5-flash-preview-05-20",
-      contents: [{ role: "user", parts: [{ text: prompt }] }],
-      config: {
-        responseModalities: ["image", "text"],
-      },
+    const response = await openai.images.generate({
+      model: "gpt-image-1.5",
+      prompt,
+      n: 1,
+      size: "1536x1024",
+      quality: "low",
+      output_format: "webp",
     });
 
-    // Extract image from response
-    const parts = response.candidates?.[0]?.content?.parts;
-    if (parts) {
-      for (const part of parts) {
-        if (part.inlineData?.data) {
-          const mimeType = part.inlineData.mimeType || "image/png";
-          const imageUrl = `data:${mimeType};base64,${part.inlineData.data}`;
+    const b64 = response.data?.[0]?.b64_json;
+    if (b64) {
+      // Upload to Supabase Storage instead of returning base64
+      const buffer = Buffer.from(b64, "base64");
+      const filename = `${crypto.randomUUID()}.webp`;
 
-          logEvent({
-            eventType: "image_generated",
-            properties: {
-              template_id: parsed.templateId,
-              fallback_used: false,
-            },
-            request,
-          });
+      const { error: uploadError } = await supabase.storage
+        .from("invitation-images")
+        .upload(filename, buffer, {
+          contentType: "image/webp",
+          cacheControl: "31536000",
+        });
 
-          return NextResponse.json({ imageUrl });
-        }
+      let imageUrl: string;
+      if (uploadError) {
+        console.error("Storage upload error:", uploadError);
+        // Fallback to data URL if upload fails
+        imageUrl = `data:image/webp;base64,${b64}`;
+      } else {
+        const { data: publicUrlData } = supabase.storage
+          .from("invitation-images")
+          .getPublicUrl(filename);
+        imageUrl = publicUrlData.publicUrl;
       }
+
+      logEvent({
+        eventType: "image_generated",
+        properties: {
+          template_id: parsed.templateId,
+          fallback_used: false,
+        },
+        request,
+      });
+
+      return NextResponse.json({ imageUrl });
     }
 
     // Fallback: return a CSS gradient placeholder

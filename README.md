@@ -6,7 +6,7 @@ A digital "Be My Valentine" invitation experience. Create beautiful, AI-personal
 
 - **4 Templates** — Classic, Bold, Playful, Minimal
 - **AI-Written Messages** — GPT-5 nano crafts poetic, personalized invitation text from your shared memories
-- **AI-Generated Art** — Gemini 2.5 Flash creates unique visual art for each invitation
+- **AI-Generated Art** — OpenAI gpt-image-1.5 creates unique visual art for each invitation
 - **Animated Reveal** — Recipients open an animated envelope to discover their invitation
 - **One-Tap RSVP** — Heart button with celebration animation
 
@@ -25,7 +25,6 @@ Create `.env.local`:
 
 ```
 OPENAI_API_KEY=your_openai_key
-GOOGLE_AI_API_KEY=your_google_ai_key
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
@@ -40,7 +39,7 @@ Create an `invitations` table in Supabase — see `PRD.md` for the full SQL sche
 
 - **Next.js 15** (App Router) + TypeScript
 - **Tailwind CSS 4** + Framer Motion
-- **GPT-5 nano** (text) + **Gemini 2.5 Flash** (image)
+- **GPT-5 nano** (text) + **gpt-image-1.5** (image)
 - **Supabase** (PostgreSQL)
 - **Zod** (validation)
 

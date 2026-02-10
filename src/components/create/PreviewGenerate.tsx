@@ -34,7 +34,7 @@ export default function PreviewGenerate({
   if (!generatedMessage && !isGenerating) {
     return (
       <div className="text-center py-12">
-        <h2 className="font-[family-name:var(--font-playfair)] text-2xl font-bold text-rose-900 mb-2">
+        <h2 className="font-[family-name:var(--font-poppins)] text-2xl font-bold text-rose-900 mb-2">
           Preview Your Invitation
         </h2>
         <p className="text-rose-700/60 mb-8">
@@ -74,7 +74,7 @@ export default function PreviewGenerate({
 
   return (
     <div>
-      <h2 className="font-[family-name:var(--font-playfair)] text-2xl font-bold text-rose-900 mb-6">
+      <h2 className="font-[family-name:var(--font-poppins)] text-2xl font-bold text-rose-900 mb-6">
         Your Invitation
       </h2>
 

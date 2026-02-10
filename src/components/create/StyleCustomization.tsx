@@ -24,7 +24,7 @@ export default function StyleCustomization({
 
   return (
     <div>
-      <h2 className="font-[family-name:var(--font-playfair)] text-2xl font-bold text-rose-900 mb-2">
+      <h2 className="font-[family-name:var(--font-poppins)] text-2xl font-bold text-rose-900 mb-2">
         Customize Your Style
       </h2>
       <p className="text-rose-700/60 mb-6">Fine-tune the look and feel.</p>
@@ -46,7 +46,7 @@ export default function StyleCustomization({
                     : "border-rose-200 bg-white/60 hover:border-rose-300"
                 }`}
               >
-                <span className="text-rose-900 text-sm font-medium">
+                <span className="text-rose-900 text-sm font-medium" style={{ fontFamily: font }}>
                   {font}
                 </span>
               </button>
@@ -86,20 +86,67 @@ export default function StyleCustomization({
           <p className="text-xs text-rose-400 uppercase tracking-wider mb-3">
             Preview
           </p>
-          <div
-            className="rounded-xl p-6"
-            style={{
-              background: template.colors.background,
-              color: template.colors.text,
-            }}
-          >
-            <p className="text-lg font-semibold" style={{ fontFamily: styleConfig.font }}>
-              {template.name} style
-            </p>
-            <p className="text-sm opacity-70 mt-1" style={{ fontFamily: styleConfig.font }}>
-              Your invitation will look like this.
-            </p>
-          </div>
+
+          {styleConfig.layout === "centered" && (
+            <div
+              className="rounded-xl p-6 min-h-[140px] flex flex-col items-center justify-center text-center"
+              style={{
+                background: template.colors.background,
+                color: template.colors.text,
+              }}
+            >
+              <p className="text-lg font-semibold" style={{ fontFamily: styleConfig.font }}>
+                {template.name} style
+              </p>
+              <p className="text-sm opacity-70 mt-1" style={{ fontFamily: styleConfig.font }}>
+                Your invitation will look like this.
+              </p>
+            </div>
+          )}
+
+          {styleConfig.layout === "split" && (
+            <div
+              className="rounded-xl min-h-[140px] flex overflow-hidden"
+              style={{ background: template.colors.background }}
+            >
+              <div
+                className="w-2/5 flex items-center justify-center text-3xl"
+                style={{
+                  background: `linear-gradient(135deg, ${template.colors.primary}, ${template.colors.secondary})`,
+                }}
+              >
+                💌
+              </div>
+              <div
+                className="w-3/5 p-6 flex flex-col justify-center"
+                style={{ color: template.colors.text }}
+              >
+                <p className="text-lg font-semibold" style={{ fontFamily: styleConfig.font }}>
+                  {template.name} style
+                </p>
+                <p className="text-sm opacity-70 mt-1" style={{ fontFamily: styleConfig.font }}>
+                  Your invitation will look like this.
+                </p>
+              </div>
+            </div>
+          )}
+
+          {styleConfig.layout === "fullscreen" && (
+            <div
+              className="rounded-xl p-6 min-h-[140px] flex flex-col items-center justify-center text-center"
+              style={{
+                background: `linear-gradient(135deg, ${template.colors.primary}, ${template.colors.accent})`,
+                color: template.colors.background,
+              }}
+            >
+              <p className="text-lg font-semibold" style={{ fontFamily: styleConfig.font }}>
+                {template.name} style
+              </p>
+              <p className="text-sm opacity-70 mt-1" style={{ fontFamily: styleConfig.font }}>
+                Your invitation will look like this.
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>
