@@ -110,54 +110,156 @@ export default function PreviewGenerate({
       </h2>
 
       {/* Preview Card */}
-      <div
-        className="rounded-2xl overflow-hidden shadow-xl"
-        style={{ background: template.colors.background }}
-      >
-        {/* Generated Image */}
-        {generatedImageUrl && (
-          <div className="relative">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={generatedImageUrl}
-              alt="Generated Valentine art"
-              className="w-full h-64 object-cover"
-            />
-            <button
-              onClick={onRegenerateImage}
-              className="absolute top-3 right-3 bg-white/80 backdrop-blur-sm text-rose-700 text-xs font-medium px-3 py-1.5 rounded-full hover:bg-white transition-colors cursor-pointer"
-            >
-              Regenerate Image
-            </button>
-          </div>
-        )}
-
-        {/* Content */}
+      {styleConfig.layout === "split" ? (
         <div
-          className="p-8"
-          style={{ color: template.colors.text, fontFamily: styleConfig.font }}
+          className="rounded-2xl overflow-hidden shadow-xl flex flex-col sm:flex-row"
+          style={{ background: template.colors.background }}
         >
-          {generatedMessage && (
-            <>
-              <p className="text-xs uppercase tracking-widest opacity-50 mb-4">
-                {generatedMessage.tagline}
-              </p>
-              <div className="text-base leading-relaxed whitespace-pre-line mb-6">
-                {generatedMessage.message}
-              </div>
-              <p className="text-sm opacity-60 italic">
-                {generatedMessage.storyArc}
-              </p>
-              <div className="mt-6 pt-4 border-t border-current/10">
-                <p className="text-sm font-semibold">
-                  With love, {senderName}
-                </p>
-                <p className="text-sm opacity-60">To {recipientName}</p>
-              </div>
-            </>
+          {/* Image left panel */}
+          {generatedImageUrl && (
+            <div className="sm:w-[40%] w-full h-56 sm:h-auto relative flex-shrink-0">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={generatedImageUrl}
+                alt="Generated Valentine art"
+                className="w-full h-full object-cover"
+              />
+              <button
+                onClick={onRegenerateImage}
+                className="absolute top-3 right-3 bg-white/80 backdrop-blur-sm text-rose-700 text-xs font-medium px-3 py-1.5 rounded-full hover:bg-white transition-colors cursor-pointer"
+              >
+                Regenerate Image
+              </button>
+            </div>
           )}
+          {/* Content right panel */}
+          <div
+            className="sm:w-[60%] w-full p-8"
+            style={{ color: template.colors.text, fontFamily: styleConfig.font }}
+          >
+            {generatedMessage && (
+              <>
+                <p className="text-xs uppercase tracking-widest opacity-50 mb-4">
+                  {generatedMessage.tagline}
+                </p>
+                <div className="text-base leading-relaxed whitespace-pre-line mb-6">
+                  {generatedMessage.message}
+                </div>
+                <p className="text-sm opacity-60 italic">
+                  {generatedMessage.storyArc}
+                </p>
+                <div className="mt-6 pt-4 border-t border-current/10">
+                  <p className="text-sm font-semibold">
+                    With love, {senderName}
+                  </p>
+                  <p className="text-sm opacity-60">To {recipientName}</p>
+                </div>
+              </>
+            )}
+          </div>
         </div>
-      </div>
+      ) : styleConfig.layout === "fullscreen" ? (
+        <div className="rounded-2xl overflow-hidden shadow-xl">
+          {/* Fullscreen: image fills, message overlaid or shown as "back" hint */}
+          {generatedImageUrl && (
+            <div className="relative">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={generatedImageUrl}
+                alt="Generated Valentine art"
+                className="w-full h-80 object-cover"
+              />
+              <button
+                onClick={onRegenerateImage}
+                className="absolute top-3 right-3 bg-white/80 backdrop-blur-sm text-rose-700 text-xs font-medium px-3 py-1.5 rounded-full hover:bg-white transition-colors cursor-pointer"
+              >
+                Regenerate Image
+              </button>
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent pt-12 pb-4 px-5">
+                <p className="text-white/70 text-xs uppercase tracking-widest">
+                  Recipient flips card to read message
+                </p>
+              </div>
+            </div>
+          )}
+          {/* Message preview below */}
+          <div
+            className="p-8"
+            style={{
+              color: template.colors.text,
+              fontFamily: styleConfig.font,
+              background: template.colors.background,
+            }}
+          >
+            {generatedMessage && (
+              <>
+                <p className="text-xs uppercase tracking-widest opacity-50 mb-4">
+                  {generatedMessage.tagline}
+                </p>
+                <div className="text-base leading-relaxed whitespace-pre-line mb-6">
+                  {generatedMessage.message}
+                </div>
+                <p className="text-sm opacity-60 italic">
+                  {generatedMessage.storyArc}
+                </p>
+                <div className="mt-6 pt-4 border-t border-current/10">
+                  <p className="text-sm font-semibold">
+                    With love, {senderName}
+                  </p>
+                  <p className="text-sm opacity-60">To {recipientName}</p>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      ) : (
+        /* Centered (default): image on top, message below */
+        <div
+          className="rounded-2xl overflow-hidden shadow-xl"
+          style={{ background: template.colors.background }}
+        >
+          {generatedImageUrl && (
+            <div className="relative">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={generatedImageUrl}
+                alt="Generated Valentine art"
+                className="w-full h-64 object-cover"
+              />
+              <button
+                onClick={onRegenerateImage}
+                className="absolute top-3 right-3 bg-white/80 backdrop-blur-sm text-rose-700 text-xs font-medium px-3 py-1.5 rounded-full hover:bg-white transition-colors cursor-pointer"
+              >
+                Regenerate Image
+              </button>
+            </div>
+          )}
+          <div
+            className="p-8"
+            style={{ color: template.colors.text, fontFamily: styleConfig.font }}
+          >
+            {generatedMessage && (
+              <>
+                <p className="text-xs uppercase tracking-widest opacity-50 mb-4">
+                  {generatedMessage.tagline}
+                </p>
+                <div className="text-base leading-relaxed whitespace-pre-line mb-6">
+                  {generatedMessage.message}
+                </div>
+                <p className="text-sm opacity-60 italic">
+                  {generatedMessage.storyArc}
+                </p>
+                <div className="mt-6 pt-4 border-t border-current/10">
+                  <p className="text-sm font-semibold">
+                    With love, {senderName}
+                  </p>
+                  <p className="text-sm opacity-60">To {recipientName}</p>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Regenerate */}
       <div className="flex gap-3 mt-4">

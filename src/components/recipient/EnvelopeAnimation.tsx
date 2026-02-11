@@ -112,10 +112,9 @@ export default function EnvelopeAnimation({
 
             {/* Heart stamp - upper right */}
             <div
-              className="absolute top-3 right-3 w-12 h-12 rounded-lg border-2 flex items-center justify-center"
-              style={{ borderColor: template.colors.primary }}
+              className="absolute top-3 right-3 w-16 h-16 rounded-lg flex items-center justify-center"
             >
-              <span className="text-2xl">{stampEmoji}</span>
+              <span className="text-4xl">{stampEmoji}</span>
             </div>
 
             {/* Decorative bottom edge */}
