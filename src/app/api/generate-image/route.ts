@@ -31,9 +31,11 @@ export async function POST(request: NextRequest) {
       parsed.hints ? parsed.hints : null,
     ].filter(Boolean).join(". ");
 
-    const prompt = `Create a romantic artwork inspired by this couple's unique story. Their moments together: ${sceneContext}.
+    const prompt = `Create a romantic Valentine's card artwork based on this description: ${parsed.imageDescription}
 
-Depict a scene, setting, or symbolic imagery drawn from their specific memories above. Make it feel like THEIR story, not a generic Valentine's card.
+Additional context from their shared memories: ${sceneContext}.
+
+Bring the described scene to life faithfully — characters, setting, and mood should match the description closely.
 
 Style: ${styleDescriptions[parsed.templateId] || styleDescriptions.classic}.
 ${parsed.tagline ? `Mood: "${parsed.tagline}". ` : ""}

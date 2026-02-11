@@ -10,6 +10,7 @@ export const createInvitationSchema = z.object({
   recipientName: z.string().min(1, "Their name is required").max(100),
   templateId: z.enum(["classic", "bold", "playful", "minimal"]),
   memories: z.array(memorySchema).min(1).max(3),
+  imageDescription: z.string().min(1, "Image description is required").max(1000),
   hints: z.string().max(1000).optional(),
   styleConfig: z.object({
     colorTheme: z.string(),
@@ -32,6 +33,7 @@ export const generateImageSchema = z.object({
   recipientName: z.string().min(1),
   tagline: z.string().optional(),
   memories: z.array(memorySchema).min(1).max(3),
+  imageDescription: z.string().min(1, "Image description is required").max(1000),
   hints: z.string().optional(),
 });
 

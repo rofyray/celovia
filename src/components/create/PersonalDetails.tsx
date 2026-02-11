@@ -7,11 +7,13 @@ interface PersonalDetailsProps {
   senderName: string;
   recipientName: string;
   memories: Memory[];
+  imageDescription: string;
   hints: string;
   onSenderNameChange: (name: string) => void;
   onRecipientNameChange: (name: string) => void;
   onMemoryChange: (index: number, field: keyof Memory, value: string) => void;
   onAddMemory: () => void;
+  onImageDescriptionChange: (desc: string) => void;
   onHintsChange: (hints: string) => void;
   errors: Record<string, string>;
 }
@@ -20,11 +22,13 @@ export default function PersonalDetails({
   senderName,
   recipientName,
   memories,
+  imageDescription,
   hints,
   onSenderNameChange,
   onRecipientNameChange,
   onMemoryChange,
   onAddMemory,
+  onImageDescriptionChange,
   onHintsChange,
   errors,
 }: PersonalDetailsProps) {
@@ -114,11 +118,30 @@ export default function PersonalDetails({
               <button
                 type="button"
                 onClick={onAddMemory}
-                className="text-sm font-medium text-rose-500 hover:text-rose-600 transition-colors cursor-pointer"
+                className="text-sm font-medium text-white bg-rose-500 hover:bg-rose-600 px-4 py-2 rounded-xl transition-colors cursor-pointer"
               >
                 + Add Memory
               </button>
             </div>
+          )}
+        </div>
+
+        {/* Card Image Description */}
+        <div>
+          <label className="block text-sm font-medium text-rose-800 mb-1">
+            Card Image Description
+          </label>
+          <textarea
+            value={imageDescription}
+            onChange={(e) => onImageDescriptionChange(e.target.value)}
+            placeholder="Describe what you'd like the card image to look like — the scene, setting, characters (e.g. detailed appearance, skin tone, hair, clothing), mood, and any specific elements you'd like included..."
+            rows={3}
+            className="w-full px-4 py-3 rounded-xl border border-rose-200 bg-white/80 text-rose-900 placeholder:text-rose-300 focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-transparent resize-none"
+          />
+          {errors.imageDescription && (
+            <p className="text-red-500 text-xs mt-1">
+              {errors.imageDescription}
+            </p>
           )}
         </div>
 
@@ -141,7 +164,7 @@ export default function PersonalDetails({
             <button
               type="button"
               onClick={() => setShowHints(true)}
-              className="text-sm font-medium text-rose-500 hover:text-rose-600 transition-colors cursor-pointer"
+              className="text-sm font-medium text-white bg-rose-500 hover:bg-rose-600 px-4 py-2 rounded-xl transition-colors cursor-pointer"
             >
               + Add Personal Hints
             </button>

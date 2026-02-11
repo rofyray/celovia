@@ -24,6 +24,7 @@ export default function CreatePage() {
     { title: "", description: "" },
   ]);
   const [hints, setHints] = useState("");
+  const [imageDescription, setImageDescription] = useState("");
   const [styleConfig, setStyleConfig] = useState<StyleConfig>(
     getTemplate("classic").defaultStyle
   );
@@ -80,6 +81,9 @@ export default function CreatePage() {
           newErrors[`memory_${i}`] = "Title is required";
         }
       });
+
+      if (!imageDescription.trim())
+        newErrors.imageDescription = "Image description is required";
     }
 
     setErrors(newErrors);
@@ -123,6 +127,7 @@ export default function CreatePage() {
         recipientName,
         tagline,
         memories: getFilledMemories(),
+        imageDescription,
         hints: hints || undefined,
       }),
     });
@@ -189,6 +194,7 @@ export default function CreatePage() {
           recipientName,
           templateId,
           memories: getFilledMemories(),
+          imageDescription,
           hints: hints || undefined,
           styleConfig,
           generatedMessage,
@@ -261,11 +267,13 @@ export default function CreatePage() {
                   senderName={senderName}
                   recipientName={recipientName}
                   memories={memories}
+                  imageDescription={imageDescription}
                   hints={hints}
                   onSenderNameChange={setSenderName}
                   onRecipientNameChange={setRecipientName}
                   onMemoryChange={handleMemoryChange}
                   onAddMemory={handleAddMemory}
+                  onImageDescriptionChange={setImageDescription}
                   onHintsChange={setHints}
                   errors={errors}
                 />
