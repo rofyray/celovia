@@ -3,6 +3,7 @@ import { openai } from "@/lib/openai";
 import { generateMessageSchema } from "@/lib/schemas";
 import { getTemplate } from "@/lib/templates";
 import { logEvent } from "@/lib/analytics";
+import { ZodError } from "zod/v4";
 
 export async function POST(request: NextRequest) {
   try {
@@ -97,6 +98,13 @@ Write a deeply personal invitation that captures the feeling of these moments wi
 
     return NextResponse.json(result);
   } catch (error) {
+    if (error instanceof ZodError) {
+      const messages = error.issues.map((i) => i.message).join(", ");
+      return NextResponse.json(
+        { error: `Validation failed: ${messages}` },
+        { status: 400 }
+      );
+    }
     console.error("Message generation error:", error);
     return NextResponse.json(
       { error: "Failed to generate message" },

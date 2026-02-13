@@ -2,7 +2,7 @@ import { z } from "zod/v4";
 
 export const memorySchema = z.object({
   title: z.string().min(1, "Title is required").max(100),
-  description: z.string().min(1, "Description is required").max(500),
+  description: z.string().min(1, "Description is required").max(1000),
 });
 
 export const createInvitationSchema = z.object({

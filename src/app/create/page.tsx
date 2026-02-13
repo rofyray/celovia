@@ -80,6 +80,12 @@ export default function CreatePage() {
         if (!m.title.trim() && m.description.trim()) {
           newErrors[`memory_${i}`] = "Title is required";
         }
+        if (m.title.length > 100) {
+          newErrors[`memory_${i}`] = "Title must be 100 characters or less";
+        }
+        if (m.description.length > 1000) {
+          newErrors[`memory_${i}`] = "Description must be 1000 characters or less";
+        }
       });
 
       if (!imageDescription.trim())
@@ -113,7 +119,10 @@ export default function CreatePage() {
         hints: hints || undefined,
       }),
     });
-    if (!res.ok) throw new Error("Failed to generate message");
+    if (!res.ok) {
+      const data = await res.json().catch(() => null);
+      throw new Error(data?.error || "Failed to generate message");
+    }
     return (await res.json()) as GeneratedMessage;
   };
 
@@ -152,7 +161,7 @@ export default function CreatePage() {
         const message = await generateMessage();
         setGeneratedMessage(message);
       } catch {
-        setErrors({ generate: "Failed to generate. Please try again." });
+        setErrors({ generate: err instanceof Error ? err.message : "Failed to generate. Please try again." });
       }
     } finally {
       setIsGenerating(false);

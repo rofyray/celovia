@@ -96,6 +96,7 @@ export default function PersonalDetails({
                   value={memory.title}
                   onChange={(e) => onMemoryChange(i, "title", e.target.value)}
                   placeholder='Memory title (e.g. "Our first date")'
+                  maxLength={100}
                   className="w-full px-3 py-2 rounded-lg border border-rose-200 bg-white/80 text-rose-900 text-sm placeholder:text-rose-300 focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-transparent"
                 />
                 <textarea
@@ -105,8 +106,12 @@ export default function PersonalDetails({
                   }
                   placeholder="Describe this memory..."
                   rows={2}
+                  maxLength={1000}
                   className="w-full px-3 py-2 rounded-lg border border-rose-200 bg-white/80 text-rose-900 text-sm placeholder:text-rose-300 focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-transparent resize-none"
                 />
+                <p className={`text-xs text-right mt-0.5 ${memory.description.length > 900 ? "text-red-500" : "text-rose-300"}`}>
+                  {memory.description.length}/1000
+                </p>
                 {errors[`memory_${i}`] && (
                   <p className="text-red-500 text-xs">{errors[`memory_${i}`]}</p>
                 )}
